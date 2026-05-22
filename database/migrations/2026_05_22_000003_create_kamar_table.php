@@ -12,11 +12,27 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kamar', function (Blueprint $table) {
+
             $table->id();
+
+            // Nomor kamar
             $table->string('nomor_kamar')->unique();
-            $table->foreignId('tipe_kamar_id')->constrained('tipe_kamar')->onDelete('cascade');
-            $table->integer('lantai');
-            $table->enum('status_kamar', ['Tersedia', 'Terisi', 'Maintenance'])->default('Tersedia');
+
+            // Relasi ke tabel tipe_kamar
+            $table->foreignId('tipe_kamar_id')
+                  ->constrained('tipe_kamar')
+                  ->onDelete('cascade');
+
+            // Harga kamar
+            $table->decimal('harga', 12, 2);
+
+            // Status kamar
+            $table->enum('status_kamar', [
+                'Tersedia',
+                'Terisi',
+                'Maintenance'
+            ])->default('Tersedia');
+
             $table->timestamps();
         });
     }

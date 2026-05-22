@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
 
 class TipeKamar extends Model
 {
@@ -14,18 +13,13 @@ class TipeKamar extends Model
 
     protected $fillable = [
         'nama_tipe',
-        'harga_per_malam',
-        'kapasitas',
-        'fasilitas',
         'deskripsi',
-        'foto',
+        'harga',
+        'kapasitas'
     ];
 
-    /**
-     * Get all kamar for this tipe_kamar
-     */
-    public function kamar(): HasMany
+    public function kamar()
     {
-        return $this->hasMany(Kamar::class, 'tipe_kamar_id');
+        return $this->hasMany(Kamar::class);
     }
 }

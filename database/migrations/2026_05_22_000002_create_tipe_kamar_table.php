@@ -12,13 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tipe_kamar', function (Blueprint $table) {
+
             $table->id();
+
             $table->string('nama_tipe');
-            $table->decimal('harga_per_malam', 12, 2);
+
+            $table->text('deskripsi')->nullable();
+
+            $table->decimal('harga', 12, 2);
+
             $table->integer('kapasitas');
-            $table->text('fasilitas');
-            $table->text('deskripsi');
-            $table->string('foto')->nullable();
+
             $table->timestamps();
         });
     }
