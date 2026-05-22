@@ -8,7 +8,9 @@ Route::get('/', function () {
 });
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PembayaranController;
 
+Route::resource('pembayaran', PembayaranController::class);
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
