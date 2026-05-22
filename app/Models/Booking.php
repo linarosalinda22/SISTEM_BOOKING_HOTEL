@@ -2,34 +2,37 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Model;
 
-class Pembayaran extends Model
+class Booking extends Model
 {
     use HasFactory;
 
-    protected $table = 'pembayaran';
+    protected $table = 'booking';
 
     protected $fillable = [
-        'booking_id',
-        'tanggal_pembayaran',
-        'metode_pembayaran',
-        'total_bayar',
-        'status_pembayaran',
+        'tamu_id',
+        'kamar_id',
+        'tanggal_checkin',
+        'tanggal_checkout',
+        'lama_menginap',
+        'total_harga',
+        'status_booking'
     ];
 
-    protected $casts = [
-        'tanggal_pembayaran' => 'date',
-        'total_bayar' => 'decimal:2',
-    ];
-
-    /**
-     * Get the booking for this pembayaran
-     */
-    public function booking(): BelongsTo
+    public function tamu()
     {
-        return $this->belongsTo(Booking::class, 'booking_id');
+        return $this->belongsTo(Tamus::class);
+    }
+
+    public function kamar()
+    {
+        return $this->belongsTo(Kamar::class);
+    }
+
+    public function pembayaran()
+    {
+        return $this->hasOne(Pembayaran::class);
     }
 }

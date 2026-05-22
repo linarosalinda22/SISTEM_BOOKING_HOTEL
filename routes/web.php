@@ -1,38 +1,22 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\TamusController;
-use App\Http\Controllers\TipeKamarController;
-use App\Http\Controllers\KamarController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\PembayaranController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+use App\Http\Controllers\DashboardController;
 
-    // Tamus (Guests)
-    Route::resource('tamus', TamusController::class);
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
-    // Tipe Kamar (Room Types)
-    Route::resource('tipe-kamar', TipeKamarController::class);
-
-    // Kamar (Rooms)
-    Route::resource('kamar', KamarController::class);
-
-    // Booking
-    Route::resource('booking', BookingController::class);
-    Route::post('booking/{booking}/check-in', [BookingController::class, 'checkIn'])->name('booking.check-in');
-    Route::post('booking/{booking}/check-out', [BookingController::class, 'checkOut'])->name('booking.check-out');
-
-    // Pembayaran (Payments)
-    Route::resource('pembayaran', PembayaranController::class);
-    Route::get('pembayaran/{pembayaran}/invoice', [PembayaranController::class, 'printInvoice'])->name('pembayaran.invoice');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';
