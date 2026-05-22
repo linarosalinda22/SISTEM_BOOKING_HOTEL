@@ -1,0 +1,100 @@
+@extends('layouts.app')
+
+@section('title', 'Booking')
+
+@section('content')
+<div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Booking Kamar</h2>
+    <a href="{{ route('booking.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+        <i class="fas fa-plus mr-2"></i> Booking Baru
+    </a>
+</div>
+
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="p-6 border-b border-gray-200">
+        <form action="{{ route('booking.index') }}" method="GET" class="flex gap-4">
+            <input type="text" name="search" placeholder="Cari nama tamu..." value="{{ $search }}" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+            <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                <option value="">Semua Status</option>
+                <option value="Pending" {{ $status == 'Pending' ? 'selected' : '' }}>Pending</option>
+                <option value="Check-in" {{ $status == 'Check-in' ? 'selected' : '' }}>Check-in</option>
+                <option value="Selesai" {{ $status == 'Selesai' ? 'selected' : '' }}>Selesai</option>
+                <option value="Dibatalkan" {{ $status == 'Dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
+            </select>
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead class="bg-gray-100 border-b border-gray-200">
+                <tr>
+                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">No.</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Nama Tamu</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Kamar</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Check-in</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Check-out</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Total</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
+                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($bookings as $booking)
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="px-6 py-3">{{ $bookings->firstItem() + $loop->index }}</td>
+                        <td class="px-6 py-3">{{ $booking->tamu->nama_lengkap }}</td>
+                        <td class="px-6 py-3">{{ $booking->kamar->nomor_kamar }}</td>
+                        <td class="px-6 py-3">{{ $booking->tanggal_checkin->format('d M Y') }}</td>
+                        <td class="px-6 py-3">{{ $booking->tanggal_checkout->format('d M Y') }}</td>
+                        <td class="px-6 py-3">Rp {{ number_format($booking->total_harga, 0, ',', '.') }}</td>
+                        <td class="px-6 py-3">
+                            <span class="px-3 py-1 rounded-full text-sm font-semibold
+                                {{ $booking->status_booking == 'Pending' ? 'bg-yellow-100 text-yellow-700' : '' }}
+                                {{ $booking->status_booking == 'Check-in' ? 'bg-blue-100 text-blue-700' : '' }}
+                                {{ $booking->status_booking == 'Selesai' ? 'bg-green-100 text-green-700' : '' }}
+                                {{ $booking->status_booking == 'Dibatalkan' ? 'bg-red-100 text-red-700' : '' }}
+                            ">
+                                {{ $booking->status_booking }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-3">
+                            <a href="{{ route('booking.show', $booking) }}" class="text-blue-600 hover:text-blue-700 mr-2" title="Lihat">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            @if($booking->status_booking == 'Pending')
+                                <a href="{{ route('booking.edit', $booking) }}" class="text-yellow-600 hover:text-yellow-700 mr-2" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('booking.check-in', $booking) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="text-green-600 hover:text-green-700 mr-2" title="Check-in">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                    </button>
+                                </form>
+                            @elseif($booking->status_booking == 'Check-in')
+                                <form action="{{ route('booking.check-out', $booking) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="text-purple-600 hover:text-purple-700 mr-2" title="Check-out">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                    </button>
+                                </form>
+                            @endif
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="8" class="px-6 py-4 text-center text-gray-500">Tidak ada data booking</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    <div class="px-6 py-4 border-t border-gray-200">
+        {{ $bookings->links() }}
+    </div>
+</div>
+@endsection
