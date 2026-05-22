@@ -1,86 +1,219 @@
 @extends('layouts.app')
 
-@section('title', 'Kamar')
+@section('title', 'Data Kamar')
 
 @section('content')
-<div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-bold text-gray-800">Kamar</h2>
-    <a href="{{ route('kamar.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-        <i class="fas fa-plus mr-2"></i> Tambah Kamar
+
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h1 class="text-3xl font-bold text-gray-800">
+            Data Kamar
+        </h1>
+
+        <p class="text-gray-500 mt-1">
+            Kelola seluruh data kamar hotel
+        </p>
+    </div>
+
+    <a href="{{ route('kamar.create') }}"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl shadow transition">
+
+        <i class="fas fa-plus mr-2"></i>
+        Tambah Kamar
     </a>
 </div>
 
-<div class="bg-white rounded-lg shadow overflow-hidden">
-    <div class="p-6 border-b border-gray-200">
-        <form action="{{ route('kamar.index') }}" method="GET" class="flex gap-4">
-            <input type="text" name="search" placeholder="Cari nomor kamar..." value="{{ $search }}" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
-            <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
-                <option value="">Semua Status</option>
-                <option value="Tersedia" {{ $status == 'Tersedia' ? 'selected' : '' }}>Tersedia</option>
-                <option value="Terisi" {{ $status == 'Terisi' ? 'selected' : '' }}>Terisi</option>
-                <option value="Maintenance" {{ $status == 'Maintenance' ? 'selected' : '' }}>Maintenance</option>
-            </select>
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+<!-- Statistik -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+
+    <div class="bg-white rounded-2xl shadow p-5 border-l-4 border-green-500">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-gray-500 text-sm">
+                    Kamar Tersedia
+                </p>
+
+                <h2 class="text-3xl font-bold text-green-600 mt-2">
+                    {{ $kamar->where('status_kamar', 'Tersedia')->count() }}
+                </h2>
+            </div>
+
+            <div class="bg-green-100 p-4 rounded-xl">
+                <i class="fas fa-bed text-green-600 text-2xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-5 border-l-4 border-red-500">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-gray-500 text-sm">
+                    Kamar Terisi
+                </p>
+
+                <h2 class="text-3xl font-bold text-red-600 mt-2">
+                    {{ $kamar->where('status_kamar', 'Terisi')->count() }}
+                </h2>
+            </div>
+
+            <div class="bg-red-100 p-4 rounded-xl">
+                <i class="fas fa-door-closed text-red-600 text-2xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-5 border-l-4 border-yellow-500">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-gray-500 text-sm">
+                    Maintenance
+                </p>
+
+                <h2 class="text-3xl font-bold text-yellow-600 mt-2">
+                    {{ $kamar->where('status_kamar', 'Maintenance')->count() }}
+                </h2>
+            </div>
+
+            <div class="bg-yellow-100 p-4 rounded-xl">
+                <i class="fas fa-tools text-yellow-600 text-2xl"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Table -->
+<div class="bg-white rounded-2xl shadow overflow-hidden">
+
+    <div class="p-5 border-b flex items-center justify-between">
+        <h2 class="text-xl font-bold text-gray-700">
+            List Data Kamar
+        </h2>
+
+        <form method="GET" class="flex items-center gap-3">
+
+            <input type="text"
+                name="search"
+                placeholder="Cari nomor kamar..."
+                class="border rounded-xl px-4 py-2 focus:ring focus:ring-blue-200">
+
+            <button type="submit"
+                class="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-xl">
+
                 <i class="fas fa-search"></i>
             </button>
         </form>
     </div>
 
     <div class="overflow-x-auto">
-        <table class="w-full">
-            <thead class="bg-gray-100 border-b border-gray-200">
+
+        <table class="w-full text-sm text-left">
+
+            <thead class="bg-gray-100 text-gray-700 uppercase">
                 <tr>
-                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">No.</th>
-                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Nomor Kamar</th>
-                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Tipe Kamar</th>
-                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Lantai</th>
-                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
-                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Aksi</th>
+                    <th class="px-6 py-4">No</th>
+                    <th class="px-6 py-4">Nomor Kamar</th>
+                    <th class="px-6 py-4">Tipe Kamar</th>
+                    <th class="px-6 py-4">Harga</th>
+                    <th class="px-6 py-4">Status</th>
+                    <th class="px-6 py-4 text-center">Aksi</th>
                 </tr>
             </thead>
-            <tbody>
-                @forelse ($kamars as $kamar)
-                    <tr class="border-b border-gray-200 hover:bg-gray-50">
-                        <td class="px-6 py-3">{{ $kamars->firstItem() + $loop->index }}</td>
-                        <td class="px-6 py-3 font-semibold">{{ $kamar->nomor_kamar }}</td>
-                        <td class="px-6 py-3">{{ $kamar->tipeKamar->nama_tipe }}</td>
-                        <td class="px-6 py-3">{{ $kamar->lantai }}</td>
-                        <td class="px-6 py-3">
-                            <span class="px-3 py-1 rounded-full text-sm font-semibold
-                                {{ $kamar->status_kamar == 'Tersedia' ? 'bg-green-100 text-green-700' : '' }}
-                                {{ $kamar->status_kamar == 'Terisi' ? 'bg-red-100 text-red-700' : '' }}
-                                {{ $kamar->status_kamar == 'Maintenance' ? 'bg-yellow-100 text-yellow-700' : '' }}
-                            ">
-                                {{ $kamar->status_kamar }}
+
+            <tbody class="divide-y divide-gray-100">
+
+                @forelse($kamar as $item)
+
+                <tr class="hover:bg-gray-50 transition">
+
+                    <td class="px-6 py-4">
+                        {{ $loop->iteration }}
+                    </td>
+
+                    <td class="px-6 py-4 font-semibold text-gray-700">
+                        {{ $item->nomor_kamar }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ $item->tipeKamar->nama_tipe ?? '-' }}
+                    </td>
+
+                    <td class="px-6 py-4 text-green-600 font-bold">
+                        Rp {{ number_format($item->harga, 0, ',', '.') }}
+                    </td>
+
+                    <td class="px-6 py-4">
+
+                        @if($item->status_kamar == 'Tersedia')
+
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                Tersedia
                             </span>
-                        </td>
-                        <td class="px-6 py-3">
-                            <a href="{{ route('kamar.show', $kamar) }}" class="text-blue-600 hover:text-blue-700 mr-2">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="{{ route('kamar.edit', $kamar) }}" class="text-yellow-600 hover:text-yellow-700 mr-2">
+
+                        @elseif($item->status_kamar == 'Terisi')
+
+                            <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                Terisi
+                            </span>
+
+                        @else
+
+                            <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                Maintenance
+                            </span>
+
+                        @endif
+
+                    </td>
+
+                    <td class="px-6 py-4 text-center">
+
+                        <div class="flex justify-center gap-2">
+
+                            <a href="{{ route('kamar.edit', $item->id) }}"
+                                class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-2 rounded-lg">
+
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="{{ route('kamar.destroy', $kamar) }}" method="POST" class="inline" onsubmit="confirmDelete(event)">
+
+                            <form action="{{ route('kamar.destroy', $item->id) }}"
+                                method="POST"
+                                onsubmit="return confirm('Yakin ingin menghapus kamar ini?')">
+
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-700">
+
+                                <button type="submit"
+                                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg">
+
                                     <i class="fas fa-trash"></i>
                                 </button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">Tidak ada data kamar</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
 
-    <div class="px-6 py-4 border-t border-gray-200">
-        {{ $kamars->links() }}
+                            </form>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                @empty
+
+                <tr>
+                    <td colspan="6"
+                        class="text-center py-10 text-gray-500">
+
+                        Tidak ada data kamar
+                    </td>
+                </tr>
+
+                @endforelse
+
+            </tbody>
+
+        </table>
+
     </div>
 </div>
+
 @endsection
