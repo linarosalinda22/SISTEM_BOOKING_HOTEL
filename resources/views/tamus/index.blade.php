@@ -86,10 +86,11 @@
                                 <a href="{{ route('tamus.edit', $tamu) }}" class="p-2 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition" title="Edit">
                                     <i class="fas fa-edit text-base"></i>
                                 </a>
-                                <form action="{{ route('tamus.destroy', $tamu) }}" method="POST" class="inline" onsubmit="confirmDelete(event)">
+                                
+                                <form action="{{ route('tamus.destroy', $tamu) }}" method="POST" class="inline" id="delete-form-{{ $tamu->id }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Hapus">
+                                    <button type="button" onclick="confirmDelete('{{ $tamu->id }}', '{{ $tamu->nama_lengkap }}')" class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Hapus">
                                         <i class="fas fa-trash text-base"></i>
                                     </button>
                                 </form>
@@ -116,4 +117,29 @@
     </div>
     @endif
 </div>
+
+<script>
+    function confirmDelete(id, namaTamu) {
+        Swal.fire({
+            title: 'Hapus Data Tamu?',
+            text: `Apakah Anda yakin ingin menghapus data dari "${namaTamu}"? Tindakan ini tidak dapat dibatalkan.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#08519C', 
+            cancelButtonColor: '#64748B',  
+            confirmButtonText: '<i class="fas fa-trash mr-1"></i> Ya, Hapus!',
+            cancelButtonText: 'Batal',
+            background: '#ffffff',
+            customClass: {
+                popup: 'rounded-2xl border border-slate-100 shadow-xl',
+                title: 'text-slate-800 font-bold tracking-tight text-xl pt-4',
+                htmlContainer: 'text-slate-500 text-sm px-3'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        });
+    }
+</script>
 @endsection

@@ -22,12 +22,12 @@
                     },
                     colors: {
                         brand: {
-                            50: '#EFF3FF',  /* Paling terang, cocok untuk background ringan */
+                            50: '#EFF3FF',  
                             200: '#C6DBEF',
                             400: '#9ECAE1',
-                            500: '#6BAED6', /* Warna utama/mid-tone */
+                            500: '#6BAED6', 
                             700: '#3182BD',
-                            900: '#08519C', /* Paling gelap, cocok untuk teks atau tombol hover */
+                            900: '#08519C', 
                         }
                     }
                 }
@@ -44,6 +44,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
 
     <div class="w-full min-h-screen">
