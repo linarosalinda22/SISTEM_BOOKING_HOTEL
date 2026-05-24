@@ -1,63 +1,74 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('title', 'Detail Tamu')
 
 @section('content')
-<div class="max-w-2xl">
-    <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">Detail Data Tamu</h2>
-        <a href="{{ route('tamus.index') }}" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
-            <i class="fas fa-arrow-left mr-2"></i> Kembali
+<div class="max-w-3xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Detail Data Tamu</h2>
+            <p class="text-slate-500 text-sm mt-1">Informasi lengkap mengenai profil tamu</p>
+        </div>
+        <a href="{{ route('tamus.index') }}" class="bg-white border border-slate-200 text-slate-700 px-4 py-2.5 rounded-xl hover:bg-slate-50 font-medium transition shadow-sm flex items-center gap-2">
+            <i class="fas fa-arrow-left text-xs"></i> Kembali
         </a>
     </div>
 
-    <div class="bg-white rounded-lg shadow p-6">
-        <div class="grid grid-cols-2 gap-6">
-            <div>
-                <p class="text-gray-600 text-sm">Nama Lengkap</p>
-                <p class="text-lg font-semibold text-gray-800">{{ $tamu->nama_lengkap }}</p>
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="p-6 bg-gradient-to-r from-brand-900 to-brand-700 text-white flex items-center gap-5">
+            <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center border border-white/20 shadow-inner">
+                <i class="fas fa-user text-3xl text-brand-100"></i>
             </div>
-
             <div>
-                <p class="text-gray-600 text-sm">Email</p>
-                <p class="text-lg font-semibold text-gray-800">{{ $tamu->email }}</p>
-            </div>
-
-            <div>
-                <p class="text-gray-600 text-sm">No. Telepon</p>
-                <p class="text-lg font-semibold text-gray-800">{{ $tamu->no_telepon }}</p>
-            </div>
-
-            <div>
-                <p class="text-gray-600 text-sm">Jenis Kelamin</p>
-                <p class="text-lg font-semibold text-gray-800">{{ $tamu->jenis_kelamin }}</p>
-            </div>
-
-            <div>
-                <p class="text-gray-600 text-sm">No. Identitas</p>
-                <p class="text-lg font-semibold text-gray-800">{{ $tamu->no_identitas }}</p>
-            </div>
-
-            <div>
-                <p class="text-gray-600 text-sm">Terdaftar Sejak</p>
-                <p class="text-lg font-semibold text-gray-800">{{ $tamu->created_at->format('d M Y H:i') }}</p>
-            </div>
-
-            <div class="col-span-2">
-                <p class="text-gray-600 text-sm">Alamat</p>
-                <p class="text-lg font-semibold text-gray-800">{{ $tamu->alamat }}</p>
+                <h3 class="text-xl font-bold tracking-wide">{{ $tamu->nama_lengkap }}</h3>
+                <p class="text-xs text-brand-200 mt-1 flex items-center gap-1.5">
+                    <i class="fas fa-calendar-alt"></i> Terdaftar Sejak: {{ $tamu->created_at->format('d M Y, H:i') }}
+                </p>
             </div>
         </div>
 
-        <div class="mt-6 flex gap-4">
-            <a href="{{ route('tamus.edit', $tamu) }}" class="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition">
-                <i class="fas fa-edit mr-2"></i> Edit
+        <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div class="space-y-1">
+                <p class="text-slate-400 font-medium uppercase tracking-wider text-xs">Email</p>
+                <p class="text-base font-semibold text-slate-800">{{ $tamu->email }}</p>
+            </div>
+
+            <div class="space-y-1">
+                <p class="text-slate-400 font-medium uppercase tracking-wider text-xs">No. Telepon</p>
+                <p class="text-base font-semibold text-slate-800 font-mono">{{ $tamu->no_telepon }}</p>
+            </div>
+
+            <div class="space-y-1">
+                <p class="text-slate-400 font-medium uppercase tracking-wider text-xs">Jenis Kelamin</p>
+                <div class="pt-0.5">
+                    <span class="px-3 py-1 rounded-full text-xs font-semibold {{ $tamu->jenis_kelamin == 'Laki-laki' ? 'bg-brand-50 text-brand-700 border border-brand-200/50' : 'bg-rose-50 text-rose-600 border border-rose-100' }}">
+                        {{ $tamu->jenis_kelamin }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="space-y-1">
+                <p class="text-slate-400 font-medium uppercase tracking-wider text-xs">No. Identitas (KTP/Passport)</p>
+                <p class="text-base font-semibold text-slate-800 font-mono">{{ $tamu->no_identitas }}</p>
+            </div>
+
+            <div class="col-span-1 md:col-span-2 space-y-1 border-t border-slate-100 pt-4">
+                <p class="text-slate-400 font-medium uppercase tracking-wider text-xs">Alamat Lengkap</p>
+                <p class="text-base text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-100 mt-1">
+                    {{ $tamu->alamat }}
+                </p>
+            </div>
+        </div>
+
+        <div class="px-8 py-5 bg-slate-50/50 border-t border-slate-100 flex gap-3 justify-end">
+            <a href="{{ route('tamus.edit', $tamu) }}" class="bg-amber-500 hover:bg-amber-600 text-white px-5 py-2.5 rounded-xl font-medium transition shadow-sm flex items-center gap-2">
+                <i class="fas fa-edit text-sm"></i> Edit Data
             </a>
             <form action="{{ route('tamus.destroy', $tamu) }}" method="POST" class="inline" onsubmit="confirmDelete(event)">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">
-                    <i class="fas fa-trash mr-2"></i> Hapus
+                <button type="submit" class="bg-rose-600 hover:bg-rose-700 text-white px-5 py-2.5 rounded-xl font-medium transition shadow-sm flex items-center gap-2">
+                    <i class="fas fa-trash text-sm"></i> Hapus
                 </button>
             </form>
         </div>

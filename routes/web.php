@@ -3,14 +3,13 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KamarController;
-
+use App\Http\Controllers\TamusController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PembayaranController;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PembayaranController;
 
 Route::resource('pembayaran', PembayaranController::class);
 Route::get('/dashboard', [DashboardController::class, 'index'])
@@ -24,5 +23,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('/kamar', KamarController::class);
+Route::get('/tamus', [TamusController::class, 'index']);
+Route::resource('tamus', TamusController::class);
 
 require __DIR__.'/auth.php';
