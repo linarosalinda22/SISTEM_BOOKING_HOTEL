@@ -15,7 +15,7 @@
         <!-- Data Booking -->
         <div class="bg-white rounded-lg shadow p-6">
             <h3 class="text-lg font-semibold mb-4 border-b pb-3">Data Booking</h3>
-            
+
             <div class="mb-4">
                 <p class="text-gray-600 text-sm">Kode Booking</p>
                 <p class="text-lg font-semibold text-gray-800">BK-{{ $booking->id }}</p>
@@ -42,7 +42,7 @@
         <!-- Data Tamu -->
         <div class="bg-white rounded-lg shadow p-6">
             <h3 class="text-lg font-semibold mb-4 border-b pb-3">Data Tamu</h3>
-            
+
             <div class="mb-4">
                 <p class="text-gray-600 text-sm">Nama</p>
                 <p class="text-lg font-semibold text-gray-800">{{ $booking->tamu->nama_lengkap }}</p>
@@ -62,7 +62,7 @@
         <!-- Data Kamar -->
         <div class="bg-white rounded-lg shadow p-6">
             <h3 class="text-lg font-semibold mb-4 border-b pb-3">Data Kamar</h3>
-            
+
             <div class="mb-4">
                 <p class="text-gray-600 text-sm">Nomor Kamar</p>
                 <p class="text-lg font-semibold text-gray-800">{{ $booking->kamar->nomor_kamar }}</p>
@@ -82,7 +82,7 @@
         <!-- Data Menginap -->
         <div class="bg-white rounded-lg shadow p-6">
             <h3 class="text-lg font-semibold mb-4 border-b pb-3">Data Menginap</h3>
-            
+
             <div class="mb-4">
                 <p class="text-gray-600 text-sm">Check-in</p>
                 <p class="text-lg font-semibold text-gray-800">{{ $booking->tanggal_checkin->format('d M Y') }}</p>
@@ -102,7 +102,7 @@
         <!-- Data Harga -->
         <div class="bg-blue-50 rounded-lg shadow p-6 lg:col-span-2">
             <h3 class="text-lg font-semibold mb-4 border-b pb-3">Ringkasan Biaya</h3>
-            
+
             <div class="grid grid-cols-3 gap-4">
                 <div>
                     <p class="text-gray-600 text-sm">Harga Per Malam</p>
@@ -160,4 +160,12 @@
         @endif
     </div>
 </div>
+
+<script>
+    function confirmDelete(event) {
+        if (!confirm('Apakah Anda yakin ingin membatalkan booking ini?')) {
+            event.preventDefault();
+        }
+    }
+</script>
 @endsection

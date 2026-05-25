@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\Kamar;
 use App\Models\Tamus;
+use App\Http\Requests\StoreBookingRequest;
+use App\Http\Requests\UpdateBookingRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -49,14 +51,9 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBookingRequest $request)
     {
-        $validated = $request->validate([
-            'tamu_id' => 'required|exists:tamuses,id',
-            'kamar_id' => 'required|exists:kamar,id',
-            'tanggal_checkin' => 'required|date|after_or_equal:today',
-            'tanggal_checkout' => 'required|date|after:tanggal_checkin',
-        ]);
+        $validated = $request->validated();
 
         // Check if kamar is available
         $kamar = Kamar::find($validated['kamar_id']);
@@ -121,18 +118,13 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Booking $booking)
+    public function update(UpdateBookingRequest $request, Booking $booking)
     {
         if ($booking->status_booking !== 'Pending') {
             return redirect()->back()->withErrors('Hanya booking dengan status Pending yang bisa diubah');
         }
 
-        $validated = $request->validate([
-            'tamu_id' => 'required|exists:tamuses,id',
-            'kamar_id' => 'required|exists:kamar,id',
-            'tanggal_checkin' => 'required|date|after_or_equal:today',
-            'tanggal_checkout' => 'required|date|after:tanggal_checkin',
-        ]);
+        $validated = $request->validated();
 
         $checkin = Carbon::parse($validated['tanggal_checkin']);
         $checkout = Carbon::parse($validated['tanggal_checkout']);
