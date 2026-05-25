@@ -36,6 +36,12 @@
                 Data Kamar
             </a>
 
+            <a href="/tipe-kamar"
+                class="flex items-center gap-3 px-4 py-3 rounded-lg text-brand-50 hover:bg-brand-700/40 transition font-medium">
+                <i class="fas fa-door-open w-5"></i>
+                Tipe Kamar
+            </a>
+
             <a href="/booking"
                 class="flex items-center gap-3 px-4 py-3 rounded-lg text-brand-50 hover:bg-brand-700/40 transition font-medium">
                 <i class="fas fa-calendar-check w-5"></i>

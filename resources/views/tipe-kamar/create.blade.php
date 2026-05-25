@@ -8,46 +8,95 @@
         Tambah Tipe Kamar
     </h1>
 
-    <form action="{{ route('tipe-kamar.store') }}" method="POST">
+    <form action="{{ route('tipe-kamar.store') }}"
+        method="POST"
+        enctype="multipart/form-data">
 
         @csrf
 
+        <!-- Nama Tipe -->
         <div class="mb-4">
-            <label>Nama Tipe</label>
+
+            <label class="block mb-2 font-medium">
+                Nama Tipe
+            </label>
 
             <input type="text"
                 name="nama_tipe"
-                class="w-full border rounded-xl p-3">
+                class="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
+
         </div>
 
+        <!-- Deskripsi -->
         <div class="mb-4">
-            <label>Deskripsi</label>
+
+            <label class="block mb-2 font-medium">
+                Deskripsi
+            </label>
 
             <textarea name="deskripsi"
-                class="w-full border rounded-xl p-3"></textarea>
+                rows="4"
+                class="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+
         </div>
 
+        <!-- Harga -->
         <div class="mb-4">
-            <label>Harga</label>
+
+            <label class="block mb-2 font-medium">
+                Harga
+            </label>
 
             <input type="number"
                 name="harga"
-                class="w-full border rounded-xl p-3">
+                class="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
+
         </div>
 
+        <!-- Kapasitas -->
         <div class="mb-4">
-            <label>Kapasitas</label>
+
+            <label class="block mb-2 font-medium">
+                Kapasitas
+            </label>
 
             <input type="number"
                 name="kapasitas"
-                class="w-full border rounded-xl p-3">
+                class="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
+
         </div>
 
-        <button type="submit"
-            class="bg-blue-600 text-white px-5 py-3 rounded-xl">
+        <!-- Foto -->
+        <div class="mb-4">
 
-            Simpan
-        </button>
+            <label class="block mb-2 font-medium">
+                Foto Kamar
+            </label>
+
+            <input type="file"
+                name="foto"
+                class="w-full border rounded-xl p-3">
+
+        </div>
+
+        <!-- Tombol -->
+        <div class="flex gap-3 mt-6">
+
+            <!-- Simpan -->
+            <button type="submit"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl transition">
+
+                Simpan
+            </button>
+
+            <!-- Batal -->
+            <a href="{{ route('tipe-kamar.index') }}"
+                class="bg-gray-500 hover:bg-gray-600 text-white px-5 py-3 rounded-xl transition">
+
+                Batal
+            </a>
+
+        </div>
 
     </form>
 

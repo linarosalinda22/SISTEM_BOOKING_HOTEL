@@ -13,8 +13,14 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        Dashboard
                     </x-nav-link>
+
+                    <a href="{{ route('tipe-kamar.index') }}"
+                        class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                        Tipe Kamar
+                    </a>
+
                 </div>
             </div>
 
@@ -69,6 +75,10 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('tipe-kamar.index')" :active="request()->routeIs('tipe-kamar.*')">
+                 {{ __('Tipe Kamar') }}
             </x-responsive-nav-link>
         </div>
 

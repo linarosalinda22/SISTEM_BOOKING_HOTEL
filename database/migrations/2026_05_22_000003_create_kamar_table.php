@@ -20,7 +20,7 @@ return new class extends Migration
 
             // Relasi ke tabel tipe_kamar
             $table->foreignId('tipe_kamar_id')
-                  ->constrained('tipe_kamar')
+                  ->constrained('tipe_kamars')
                   ->onDelete('cascade');
 
             // Harga kamar

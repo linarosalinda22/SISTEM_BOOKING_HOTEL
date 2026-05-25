@@ -6,6 +6,7 @@ use App\Http\Controllers\KamarController;
 use App\Http\Controllers\TamusController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\TipeKamarController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +24,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('/kamar', KamarController::class);
+Route::resource('tipe-kamar', TipeKamarController::class);
 Route::get('/tamus', [TamusController::class, 'index']);
 Route::resource('tamus', TamusController::class);
 

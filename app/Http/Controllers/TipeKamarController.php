@@ -2,115 +2,126 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TipeKamar;
+use App\Models\Tipe_kamar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class TipeKamarController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
-        $search = $request->input('search');
-        $tipeKamars = TipeKamar::query();
+        $search = $request->search ?? '';
 
-        if ($search) {
-            $tipeKamars = $tipeKamars->where('nama_tipe', 'like', "%{$search}%");
-        }
-
-        $tipeKamars = $tipeKamars->paginate(10);
+        $tipeKamars = Tipe_kamar::when($search, function ($query) use ($search) {
+            $query->where('nama_tipe', 'like', "%$search%");
+        })->paginate(10);
 
         return view('tipe-kamar.index', compact('tipeKamars', 'search'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('tipe-kamar.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama_tipe' => 'required|string|max:255',
-            'harga_per_malam' => 'required|numeric|min:0',
-            'kapasitas' => 'required|integer|min:1',
-            'fasilitas' => 'required|string',
-            'deskripsi' => 'required|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        $request->validate([
+            'nama_tipe' => 'required',
+            'harga' => 'required|numeric',
+            'kapasitas' => 'required|numeric',
+            'deskripsi' => 'nullable',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
+        $foto = null;
+
+        // Upload foto
         if ($request->hasFile('foto')) {
-            $path = $request->file('foto')->store('tipe-kamar', 'public');
-            $validated['foto'] = $path;
+
+            $foto = $request->file('foto')
+                ->store('tipe-kamar', 'public');
         }
 
-        TipeKamar::create($validated);
+        Tipe_kamar::create([
+            'nama_tipe' => $request->nama_tipe,
+            'harga' => $request->harga,
+            'kapasitas' => $request->kapasitas,
+            'deskripsi' => $request->deskripsi,
+            'foto' => $foto,
+        ]);
 
-        return redirect()->route('tipe-kamar.index')->with('success', 'Tipe kamar berhasil ditambahkan');
+        return redirect()->route('tipe-kamar.index')
+            ->with('success', 'Data tipe kamar berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(TipeKamar $tipeKamar)
+    public function show($id)
     {
+        $tipeKamar = Tipe_kamar::findOrFail($id);
+
         return view('tipe-kamar.show', compact('tipeKamar'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(TipeKamar $tipeKamar)
+    public function edit($id)
     {
+        $tipeKamar = Tipe_kamar::findOrFail($id);
+
         return view('tipe-kamar.edit', compact('tipeKamar'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, TipeKamar $tipeKamar)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'nama_tipe' => 'required|string|max:255',
-            'harga_per_malam' => 'required|numeric|min:0',
-            'kapasitas' => 'required|integer|min:1',
-            'fasilitas' => 'required|string',
-            'deskripsi' => 'required|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        $request->validate([
+            'nama_tipe' => 'required',
+            'harga' => 'required|numeric',
+            'kapasitas' => 'required|numeric',
+            'deskripsi' => 'nullable',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
+        $tipeKamar = Tipe_kamar::findOrFail($id);
+
+        $foto = $tipeKamar->foto;
+
+        // Jika upload foto baru
         if ($request->hasFile('foto')) {
+
+            // Hapus foto lama
             if ($tipeKamar->foto) {
+
                 Storage::disk('public')->delete($tipeKamar->foto);
             }
-            $path = $request->file('foto')->store('tipe-kamar', 'public');
-            $validated['foto'] = $path;
+
+            // Upload foto baru
+            $foto = $request->file('foto')
+                ->store('tipe-kamar', 'public');
         }
 
-        $tipeKamar->update($validated);
+        $tipeKamar->update([
+            'nama_tipe' => $request->nama_tipe,
+            'harga' => $request->harga,
+            'kapasitas' => $request->kapasitas,
+            'deskripsi' => $request->deskripsi,
+            'foto' => $foto,
+        ]);
 
-        return redirect()->route('tipe-kamar.index')->with('success', 'Tipe kamar berhasil diperbarui');
+        return redirect()->route('tipe-kamar.index')
+            ->with('success', 'Data tipe kamar berhasil diupdate');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TipeKamar $tipeKamar)
+    public function destroy($id)
     {
+        $tipeKamar = Tipe_kamar::findOrFail($id);
+
+        // Hapus foto
         if ($tipeKamar->foto) {
+
             Storage::disk('public')->delete($tipeKamar->foto);
         }
 
         $tipeKamar->delete();
 
-        return redirect()->route('tipe-kamar.index')->with('success', 'Tipe kamar berhasil dihapus');
+        return redirect()->route('tipe-kamar.index')
+            ->with('success', 'Data berhasil dihapus');
     }
 }
