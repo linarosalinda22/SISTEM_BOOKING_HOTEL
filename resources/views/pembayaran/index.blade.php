@@ -4,24 +4,40 @@
 
 @section('content')
 <div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-bold text-gray-800">Pembayaran</h2>
-    <a href="{{ route('pembayaran.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-        <i class="fas fa-plus mr-2"></i> Input Pembayaran
-    </a>
+    <h2 class="text-2xl font-bold text-gray-800">
+        Pembayaran
+    </h2>
+    <div class="flex items-center gap-3">
+        <!-- Tombol Kembali -->
+        <a href="{{ route('dashboard') }}"
+            class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+            <i class="fas fa-arrow-left mr-2"></i>
+            ← Dashboard
+        </a>
+        <!-- Tombol Input -->
+        <a href="{{ route('pembayaran.create') }}"
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+
+            <i class="fas fa-plus mr-2"></i>
+            Input Pembayaran
+        </a>
+    </div>
 </div>
 
 <div class="bg-white rounded-lg shadow overflow-hidden">
     <div class="p-6 border-b border-gray-200">
         <form action="{{ route('pembayaran.index') }}" method="GET" class="flex gap-4">
             <input type="text" name="search" placeholder="Cari nama tamu..." value="{{ $search }}" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
-            <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+            <select name="status"
+    class="min-w-[180px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
                 <option value="">Semua Status</option>
                 <option value="Lunas" {{ $status == 'Lunas' ? 'selected' : '' }}>Lunas</option>
                 <option value="Belum Lunas" {{ $status == 'Belum Lunas' ? 'selected' : '' }}>Belum Lunas</option>
             </select>
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                <i class="fas fa-search"></i>
-            </button>
+            <button type="submit"
+    class="bg-blue-600 text-white w-12 h-12 rounded-lg hover:bg-blue-700 transition flex items-center justify-center text-xl">
+    🔍︎
+</button>
         </form>
     </div>
 

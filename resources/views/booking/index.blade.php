@@ -4,25 +4,41 @@
 
 @section('content')
 <div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-bold text-gray-800">Booking Kamar</h2>
-    <a href="{{ route('booking.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-        <i class="fas fa-plus mr-2"></i> Booking Baru
-    </a>
+
+    <h2 class="text-2xl font-bold text-gray-800">
+        Booking Kamar
+    </h2>
+    <div class="flex items-center gap-3">
+        <!-- Tombol Kembali -->
+        <a href="{{ route('dashboard') }}"
+            class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+            ← Dashboard
+        </a>
+        <!-- Tombol Booking -->
+        <a href="{{ route('booking.create') }}"
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+            + Booking Baru
+        </a>
+    </div>
 </div>
 
 <div class="bg-white rounded-lg shadow overflow-hidden">
     <div class="p-6 border-b border-gray-200">
-        <form action="{{ route('booking.index') }}" method="GET" class="flex gap-4">
+        <form action="{{ route('booking.index') }}"
+    method="GET"
+    class="flex items-center gap-4">
             <input type="text" name="search" placeholder="Cari nama tamu..." value="{{ $search }}" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
-            <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+            <select name="status"
+            class="min-w-[180px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
                 <option value="">Semua Status</option>
                 <option value="Pending" {{ $status == 'Pending' ? 'selected' : '' }}>Pending</option>
                 <option value="Check-in" {{ $status == 'Check-in' ? 'selected' : '' }}>Check-in</option>
                 <option value="Selesai" {{ $status == 'Selesai' ? 'selected' : '' }}>Selesai</option>
                 <option value="Dibatalkan" {{ $status == 'Dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
             </select>
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                <i class="fas fa-search"></i>
+            <button type="submit"
+                class="bg-blue-600 text-white w-12 h-12 rounded-lg hover:bg-blue-700 transition flex items-center justify-center text-xl">
+                🔍︎
             </button>
         </form>
     </div>
