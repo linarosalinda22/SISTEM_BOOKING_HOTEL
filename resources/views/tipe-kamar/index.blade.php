@@ -8,23 +8,45 @@
 
     <!-- Header -->
     <div class="flex justify-between items-center mb-6">
-        <h2 class="text-3xl font-bold text-slate-800">
-            Tipe Kamar
-        </h2>
 
+    <!-- Judul -->
+    <h2 class="text-3xl font-bold text-slate-800">
+        Tipe Kamar
+    </h2>
+
+    <!-- Tombol -->
+    <div class="flex items-center gap-3">
+
+        <!-- Tombol Kembali -->
+        <a href="{{ route('dashboard') }}"
+            class="bg-gray-500 hover:bg-gray-600 text-white px-5 py-3 rounded-lg transition font-medium shadow">
+
+            <i class="fas fa-arrow-left mr-2"></i>
+            Dashboard
+        </a>
+
+        <!-- Tombol Tambah -->
         <a href="{{ route('tipe-kamar.create') }}"
             class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-lg transition font-medium shadow">
+
             <i class="fas fa-plus mr-2"></i>
             Tambah Tipe Kamar
+
         </a>
+
     </div>
+
+</div>
 
     <!-- Card -->
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
 
         <!-- Search -->
         <div class="p-6 border-b border-slate-200">
-            <form action="{{ route('tipe-kamar.index') }}" method="GET" class="flex gap-4">
+
+            <form action="{{ route('tipe-kamar.index') }}"
+                method="GET"
+                class="flex gap-4">
 
                 <input type="text"
                     name="search"
@@ -34,10 +56,13 @@
 
                 <button type="submit"
                     class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-lg transition">
+
                     <i class="fas fa-search"></i>
+
                 </button>
 
             </form>
+
         </div>
 
         <!-- Table -->
@@ -46,7 +71,9 @@
             <table class="w-full">
 
                 <thead class="bg-slate-100 border-b border-slate-200">
+
                     <tr>
+
                         <th class="px-6 py-4 text-left text-sm font-semibold text-slate-700">
                             No.
                         </th>
@@ -70,7 +97,9 @@
                         <th class="px-6 py-4 text-center text-sm font-semibold text-slate-700">
                             Aksi
                         </th>
+
                     </tr>
+
                 </thead>
 
                 <tbody>
@@ -117,12 +146,13 @@
                             <td class="px-6 py-4">
 
                                 <div class="flex items-center justify-center gap-3">
-                                  
+
                                     <!-- Edit -->
                                     <a href="{{ route('tipe-kamar.edit', $tipeKamar->id) }}"
                                         class="bg-yellow-500 hover:bg-yellow-600 text-white w-9 h-9 rounded-lg flex items-center justify-center transition shadow">
 
                                         <i class="fas fa-edit"></i>
+
                                     </a>
 
                                     <!-- Hapus -->
@@ -137,6 +167,7 @@
                                             class="bg-red-500 hover:bg-red-600 text-white w-9 h-9 rounded-lg flex items-center justify-center transition shadow">
 
                                             <i class="fas fa-trash"></i>
+
                                         </button>
 
                                     </form>
@@ -150,12 +181,14 @@
                     @empty
 
                         <tr>
+
                             <td colspan="6"
                                 class="px-6 py-6 text-center text-slate-500">
 
                                 Tidak ada data tipe kamar
 
                             </td>
+
                         </tr>
 
                     @endforelse

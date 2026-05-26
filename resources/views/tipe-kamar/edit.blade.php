@@ -19,12 +19,13 @@
         <div class="mb-4">
 
             <label class="block mb-2 font-medium">
-                Nama Tipe
+                Nama Tipe <span class="text-red-500">*</span>
             </label>
 
             <input type="text"
                 name="nama_tipe"
                 value="{{ $tipeKamar->nama_tipe }}"
+                required
                 class="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400">
 
         </div>
@@ -33,11 +34,12 @@
         <div class="mb-4">
 
             <label class="block mb-2 font-medium">
-                Deskripsi
+                Deskripsi <span class="text-red-500">*</span>
             </label>
 
             <textarea name="deskripsi"
                 rows="4"
+                required
                 class="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400">{{ $tipeKamar->deskripsi }}</textarea>
 
         </div>
@@ -46,12 +48,13 @@
         <div class="mb-4">
 
             <label class="block mb-2 font-medium">
-                Harga
+                Harga <span class="text-red-500">*</span>
             </label>
 
             <input type="number"
                 name="harga"
                 value="{{ $tipeKamar->harga }}"
+                required
                 class="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400">
 
         </div>
@@ -60,12 +63,13 @@
         <div class="mb-4">
 
             <label class="block mb-2 font-medium">
-                Kapasitas
+                Kapasitas <span class="text-red-500">*</span>
             </label>
 
             <input type="number"
                 name="kapasitas"
                 value="{{ $tipeKamar->kapasitas }}"
+                required
                 class="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400">
 
         </div>
@@ -97,7 +101,7 @@
         <div class="mb-4">
 
             <label class="block mb-2 font-medium">
-                Ganti Foto
+                Foto Kamar <span class="text-red-500">*</span>
             </label>
 
             <input type="file"

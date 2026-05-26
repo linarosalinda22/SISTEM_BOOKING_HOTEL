@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kamar;
-use App\Models\TipeKamar;
+use App\Models\Tipe_kamar;
 use Illuminate\Http\Request;
 
 class KamarController extends Controller
@@ -17,7 +17,7 @@ class KamarController extends Controller
 
     public function create()
     {
-        $tipeKamar = TipeKamar::all();
+        $tipeKamar = Tipe_kamar::all();
 
         return view('kamar.create', compact('tipeKamar'));
     }

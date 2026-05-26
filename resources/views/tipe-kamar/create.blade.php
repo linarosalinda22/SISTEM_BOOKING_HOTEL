@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('content')
 
@@ -18,7 +18,7 @@
         <div class="mb-4">
 
             <label class="block mb-2 font-medium">
-                Nama Tipe
+                Nama Tipe <span class="text-red-500">*</span>
             </label>
 
             <input type="text"
@@ -31,7 +31,7 @@
         <div class="mb-4">
 
             <label class="block mb-2 font-medium">
-                Deskripsi
+                Deskripsi <span class="text-red-500">*</span>
             </label>
 
             <textarea name="deskripsi"
@@ -44,7 +44,7 @@
         <div class="mb-4">
 
             <label class="block mb-2 font-medium">
-                Harga
+                Harga <span class="text-red-500">*</span>
             </label>
 
             <input type="number"
@@ -57,7 +57,7 @@
         <div class="mb-4">
 
             <label class="block mb-2 font-medium">
-                Kapasitas
+                Kapasitas <span class="text-red-500">*</span>
             </label>
 
             <input type="number"
@@ -70,7 +70,7 @@
         <div class="mb-4">
 
             <label class="block mb-2 font-medium">
-                Foto Kamar
+                Foto Kamar <span class="text-red-500">*</span>
             </label>
 
             <input type="file"
