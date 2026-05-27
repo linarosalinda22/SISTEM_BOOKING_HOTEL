@@ -3,6 +3,11 @@
 @section('title', 'Pembayaran')
 
 @section('content')
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<div class="p-6">
+
 <div class="flex justify-between items-center mb-6">
     <h2 class="text-2xl font-bold text-gray-800">
         Pembayaran
@@ -12,7 +17,7 @@
         <a href="{{ route('dashboard') }}"
             class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
             <i class="fas fa-arrow-left mr-2"></i>
-            ← Dashboard
+            Dashboard
         </a>
         <!-- Tombol Input -->
         <a href="{{ route('pembayaran.create') }}"

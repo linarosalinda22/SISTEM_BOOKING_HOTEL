@@ -3,23 +3,32 @@
 @section('title', 'Booking')
 
 @section('content')
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 <div class="flex justify-between items-center mb-6">
 
     <h2 class="text-2xl font-bold text-gray-800">
         Booking Kamar
     </h2>
+
     <div class="flex items-center gap-3">
+
         <!-- Tombol Kembali -->
         <a href="{{ route('dashboard') }}"
             class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
             ← Dashboard
         </a>
+
         <!-- Tombol Booking -->
         <a href="{{ route('booking.create') }}"
             class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
             + Booking Baru
         </a>
+
     </div>
+
 </div>
 
 <div class="bg-white rounded-lg shadow overflow-hidden">
@@ -81,22 +90,49 @@
                                 <i class="fas fa-eye"></i>
                             </a>
                             @if($booking->status_booking == 'Pending')
-                                <a href="{{ route('booking.edit', $booking) }}" class="text-yellow-600 hover:text-yellow-700 mr-2" title="Edit">
+
+                                <!-- Edit -->
+                                <a href="{{ route('booking.edit', $booking) }}"
+                                    class="text-yellow-600 hover:text-yellow-700 mr-2"
+                                    title="Edit">
+
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form action="{{ route('booking.check-in', $booking) }}" method="POST" class="inline">
+
+                                <!-- Hapus -->
+                                <form action="{{ route('booking.destroy', $booking) }}"
+                                    method="POST"
+                                    class="inline"
+                                    onsubmit="return confirm('Yakin ingin menghapus booking ini?')">
+
                                     @csrf
-                                    <button type="submit" class="text-green-600 hover:text-green-700 mr-2" title="Check-in">
+                                    @method('DELETE')
+
+                                    <button type="submit"
+                                        class="text-red-600 hover:text-red-700 mr-2"
+                                        title="Hapus">
+
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+
+                                </form>
+
+                                <!-- Check-in -->
+                                <form action="{{ route('booking.check-in', $booking) }}"
+                                    method="POST"
+                                    class="inline">
+
+                                    @csrf
+
+                                    <button type="submit"
+                                        class="text-green-600 hover:text-green-700 mr-2"
+                                        title="Check-in">
+
                                         <i class="fas fa-sign-in-alt"></i>
                                     </button>
+
                                 </form>
-                            @elseif($booking->status_booking == 'Check-in')
-                                <form action="{{ route('booking.check-out', $booking) }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" class="text-purple-600 hover:text-purple-700 mr-2" title="Check-out">
-                                        <i class="fas fa-sign-out-alt"></i>
-                                    </button>
-                                </form>
+
                             @endif
                         </td>
                     </tr>

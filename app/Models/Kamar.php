@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Models\Tipe_kamar;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,6 @@ class Kamar extends Model
 
     public function tipeKamar()
     {
-        return $this->belongsTo(TipeKamar::class, 'tipe_kamar_id');
+        return $this->belongsTo(Tipe_kamar::class, 'tipe_kamar_id');
     }
 }

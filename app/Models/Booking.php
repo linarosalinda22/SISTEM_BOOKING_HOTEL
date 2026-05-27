@@ -20,6 +20,10 @@ class Booking extends Model
         'total_harga',
         'status_booking'
     ];
+    protected $casts = [
+        'tanggal_checkin' => 'date',
+        'tanggal_checkout' => 'date',
+    ];
 
     public function tamu()
     {

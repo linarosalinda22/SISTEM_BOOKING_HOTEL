@@ -7,6 +7,27 @@
     <h2 class="text-2xl font-bold text-gray-800 mb-6">Buat Booking Baru</h2>
 
     <div class="bg-white rounded-lg shadow p-6">
+    @if ($errors->any())
+    <div id="error-alert"
+        class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4 flex justify-between items-center">
+
+        <div>
+            <ul class="list-disc list-inside">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+
+        <button type="button"
+            onclick="document.getElementById('error-alert').style.display='none'"
+            class="ml-4 text-red-700 font-bold text-xl">
+
+            &times;
+        </button>
+
+    </div>
+@endif
         <form action="{{ route('booking.store') }}" method="POST">
             @csrf
 
@@ -43,7 +64,7 @@
                     <option value="">-- Pilih Kamar --</option>
                     @foreach($kamars as $kamar)
                         <option value="{{ $kamar->id }}" {{ old('kamar_id') == $kamar->id ? 'selected' : '' }}>
-                            Kamar {{ $kamar->nomor_kamar }} ({{ $kamar->tipeKamar->nama_tipe }}) - Rp {{ number_format($kamar->tipeKamar->harga_per_malam, 0, ',', '.') }}/malam
+                            Kamar {{ $kamar->nomor_kamar }} ({{ $kamar->tipeKamar->nama_tipe }}) - Rp {{ number_format($kamar->tipeKamar->harga, 0, ',', '.') }}/malam
                         </option>
                     @endforeach
                 </select>

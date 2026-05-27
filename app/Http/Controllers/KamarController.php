@@ -8,9 +8,25 @@ use Illuminate\Http\Request;
 
 class KamarController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kamar = Kamar::with('tipeKamar')->get();
+        $search = $request->search;
+
+        $kamar = Kamar::with('tipeKamar')
+
+            ->when($search, function ($query) use ($search) {
+
+                $query->where('nomor_kamar', 'like', "%{$search}%")
+
+                      ->orWhereHas('tipeKamar', function ($q) use ($search) {
+
+                          $q->where('nama_tipe', 'like', "%{$search}%");
+
+                      });
+
+            })
+
+            ->get();
 
         return view('kamar.index', compact('kamar'));
     }
@@ -41,7 +57,7 @@ class KamarController extends Controller
     {
         $kamar = Kamar::findOrFail($id);
 
-        $tipeKamar = TipeKamar::all();
+        $tipeKamar = Tipe_kamar::all();
 
         return view('kamar.edit', compact('kamar', 'tipeKamar'));
     }

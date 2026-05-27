@@ -3,118 +3,220 @@
 @section('title', 'Data Kamar')
 
 @section('content')
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<div class="flex justify-between items-center mb-6">
+<div class="p-6">
 
-    <div>
-        <h1 class="text-3xl font-bold text-gray-800">
-            Data Kamar
-        </h1>
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
 
-        <p class="text-gray-500">
-            Kelola seluruh kamar hotel
-        </p>
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">
+                Data Kamar
+            </h1>
+
+            <p class="text-gray-500 mt-1">
+                Kelola seluruh kamar hotel
+            </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+
+            <!-- Tombol Kembali -->
+            <a href="{{ route('dashboard') }}"
+            class="bg-gray-500 hover:bg-gray-600 text-white px-5 py-3 rounded-lg transition font-medium shadow">
+
+            <i class="fas fa-arrow-left mr-2"></i>
+            Dashboard
+        </a>
+
+            <!-- Tombol Tambah -->
+            <a href="{{ route('kamar.create') }}"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl transition shadow flex items-center gap-2">
+
+                <i class="fas fa-plus"></i>
+                Tambah Kamar
+            </a>
+
+        </div>
+
     </div>
 
-    <a href="{{ route('kamar.create') }}"
-        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl">
+    <!-- Card Table -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
 
-        Tambah Kamar
-    </a>
-</div>
+        <!-- Search -->
+        <div class="p-6 border-b border-gray-200">
 
-<div class="bg-white rounded-2xl shadow overflow-hidden">
+            <form action="{{ route('kamar.index') }}"
+                method="GET"
+                class="flex gap-3">
 
-    <table class="w-full">
+                <!-- Input Search -->
+                <input type="text"
+                    name="search"
+                    placeholder="Cari nomor kamar atau tipe kamar..."
+                    value="{{ request('search') }}"
+                    class="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-        <thead class="bg-gray-100">
+                <!-- Tombol Search -->
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl transition shadow flex items-center justify-center">
 
-            <tr>
-                <th class="p-4">No</th>
-                <th>Nomor Kamar</th>
-                <th>Tipe</th>
-                <th>Harga</th>
-                <th>Status</th>
-                <th>Aksi</th>
-            </tr>
+                    <i class="fas fa-search"></i>
 
-        </thead>
+                </button>
 
-        <tbody>
+            </form>
 
-            @foreach($kamar as $item)
+        </div>
 
-            <tr class="border-b hover:bg-gray-50">
+        <div class="overflow-x-auto">
 
-                <td class="p-4">
-                    {{ $loop->iteration }}
-                </td>
+            <table class="w-full">
 
-                <td>
-                    {{ $item->nomor_kamar }}
-                </td>
+                <!-- Head -->
+                <thead class="bg-gray-100 border-b border-gray-200">
 
-                <td>
-                    {{ $item->tipeKamar->nama_tipe ?? '-' }}
-                </td>
+                    <tr>
 
-                <td class="text-green-600 font-bold">
-                    Rp {{ number_format($item->harga,0,',','.') }}
-                </td>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                            No
+                        </th>
 
-                <td>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                            Nomor Kamar
+                        </th>
 
-                    @if($item->status_kamar == 'Tersedia')
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                            Tipe
+                        </th>
 
-                        <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
-                            Tersedia
-                        </span>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                            Harga
+                        </th>
 
-                    @elseif($item->status_kamar == 'Terisi')
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                            Status
+                        </th>
 
-                        <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm">
-                            Terisi
-                        </span>
+                        <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700">
+                            Aksi
+                        </th>
 
-                    @else
+                    </tr>
 
-                        <span class="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full text-sm">
-                            Maintenance
-                        </span>
+                </thead>
 
-                    @endif
+                <!-- Body -->
+                <tbody>
 
-                </td>
+                    @forelse($kamar as $item)
 
-                <td class="flex gap-2 p-4">
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
 
-                    <a href="{{ route('kamar.edit', $item->id) }}"
-                        class="bg-yellow-400 text-white px-3 py-2 rounded-lg">
+                        <!-- No -->
+                        <td class="px-6 py-4">
+                            {{ $loop->iteration }}
+                        </td>
 
-                        Edit
-                    </a>
+                        <!-- Nomor -->
+                        <td class="px-6 py-4 font-medium text-gray-700">
+                            {{ $item->nomor_kamar }}
+                        </td>
 
-                    <form action="{{ route('kamar.destroy', $item->id) }}"
-                        method="POST">
+                        <!-- Tipe -->
+                        <td class="px-6 py-4">
+                            {{ $item->tipeKamar->nama_tipe ?? '-' }}
+                        </td>
 
-                        @csrf
-                        @method('DELETE')
+                        <!-- Harga -->
+                        <td class="px-6 py-4 font-semibold text-green-600">
+                            Rp {{ number_format($item->harga,0,',','.') }}
+                        </td>
 
-                        <button class="bg-red-500 text-white px-3 py-2 rounded-lg">
-                            Hapus
-                        </button>
+                        <!-- Status -->
+                        <td class="px-6 py-4">
 
-                    </form>
+                            @if($item->status_kamar == 'Tersedia')
 
-                </td>
+                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                                    Tersedia
+                                </span>
 
-            </tr>
+                            @elseif($item->status_kamar == 'Terisi')
 
-            @endforeach
+                                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium">
+                                    Terisi
+                                </span>
 
-        </tbody>
+                            @else
 
-    </table>
+                                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium">
+                                    Maintenance
+                                </span>
+
+                            @endif
+
+                        </td>
+
+                        <!-- Aksi -->
+                        <td class="px-6 py-4">
+
+                            <div class="flex items-center justify-center gap-2">
+
+                        <!-- Edit -->
+                        <a href="{{ route('kamar.edit', $item->id) }}"
+                            class="w-10 h-10 bg-yellow-500 hover:bg-yellow-600 rounded-xl flex items-center justify-center text-white shadow transition">
+
+                            <i class="fas fa-edit"></i>
+                        </a>
+
+                        <!-- Hapus -->
+                        <form action="{{ route('kamar.destroy', $item->id) }}"
+                            method="POST"
+                            onsubmit="return confirm('Yakin ingin menghapus data kamar ini?')">
+
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit"
+                                class="w-10 h-10 bg-red-500 hover:bg-red-600 rounded-xl flex items-center justify-center text-white shadow transition">
+
+                                <i class="fas fa-trash"></i>
+                            </button>
+
+                        </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    @empty
+
+                    <tr>
+
+                        <td colspan="6"
+                            class="px-6 py-6 text-center text-gray-500">
+
+                            Tidak ada data kamar
+
+                        </td>
+
+                    </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 
 </div>
 

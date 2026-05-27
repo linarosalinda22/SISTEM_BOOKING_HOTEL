@@ -18,13 +18,6 @@
                 Update informasi kamar hotel
             </p>
         </div>
-
-        <a href="{{ route('kamar.index') }}"
-            class="bg-gray-500 hover:bg-gray-600 text-white px-5 py-3 rounded-xl transition">
-
-            <i class="fas fa-arrow-left mr-2"></i>
-            Kembali
-        </a>
     </div>
 
     <!-- Card -->

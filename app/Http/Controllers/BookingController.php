@@ -62,26 +62,23 @@ class BookingController extends Controller
         }
 
         // Check for booking conflicts
-        $conflict = Booking::where('kamar_id', $validated['kamar_id'])
-            ->where(function ($query) use ($validated) {
-                $query->whereBetween('tanggal_checkin', [$validated['tanggal_checkin'], $validated['tanggal_checkout']])
-                    ->orWhereBetween('tanggal_checkout', [$validated['tanggal_checkin'], $validated['tanggal_checkout']])
-                    ->orWhere(function ($q) use ($validated) {
-                        $q->where('tanggal_checkin', '<=', $validated['tanggal_checkin'])
-                            ->where('tanggal_checkout', '>=', $validated['tanggal_checkout']);
-                    });
-            })
+            $conflict = Booking::where('kamar_id', $validated['kamar_id'])
             ->whereIn('status_booking', ['Pending', 'Check-in'])
+            ->where(function ($query) use ($validated) {
+                $query->where('tanggal_checkin', '<', $validated['tanggal_checkout'])
+                    ->where('tanggal_checkout', '>', $validated['tanggal_checkin']);
+            })
             ->exists();
 
         if ($conflict) {
-            return redirect()->back()->withErrors('Kamar sudah dipesan pada tanggal tersebut');
+            return redirect()->back()
+                ->withErrors('Kamar sudah dipesan pada tanggal tersebut');
         }
 
         $checkin = Carbon::parse($validated['tanggal_checkin']);
         $checkout = Carbon::parse($validated['tanggal_checkout']);
         $lama_menginap = $checkout->diffInDays($checkin);
-        $total_harga = $kamar->tipeKamar->harga_per_malam * $lama_menginap;
+        $total_harga = $kamar->tipeKamar->harga * $lama_menginap;
 
         Booking::create([
             'tamu_id' => $validated['tamu_id'],
@@ -131,7 +128,7 @@ class BookingController extends Controller
         $lama_menginap = $checkout->diffInDays($checkin);
 
         $kamar = Kamar::find($validated['kamar_id']);
-        $total_harga = $kamar->tipeKamar->harga_per_malam * $lama_menginap;
+        $total_harga = $kamar->tipeKamar->harga * $lama_menginap;
 
         $booking->update([
             'tamu_id' => $validated['tamu_id'],
